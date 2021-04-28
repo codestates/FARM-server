@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Farm extends Model {
     static associate(models) {
       Farm.belongsToMany(models.User, { through: User_Farms });
-      Farm.hasMany(models.SeedType);
+      Farm.hasMany(models.Crop);
     }
   }
   Farm.init(

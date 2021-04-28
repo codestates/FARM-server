@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Kind extends Model {
     static associate(models) {
-      Kind.hasMany(models.SeedType);
+      Kind.hasMany(models.Crop);
     }
   }
   Kind.init(

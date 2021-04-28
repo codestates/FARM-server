@@ -26,8 +26,8 @@ module.exports = {
       onUpdate: "cascade",
     });
 
-    await queryInterface.addConstraint("SeedTypes", {
-      name: "Farms-SeedTypes",
+    await queryInterface.addConstraint("Crops", {
+      name: "Farms-Crops",
       fields: ["farms_id"],
       type: "foreign key",
       references: {
@@ -38,7 +38,7 @@ module.exports = {
       onUpdate: "cascade",
     });
 
-    await queryInterface.addConstraint("SeedTypes", {
+    await queryInterface.addConstraint("Crops", {
       name: "Kind-SeedType",
       fields: ["kinds_id"],
       type: "foreign key",
@@ -51,11 +51,11 @@ module.exports = {
     });
 
     await queryInterface.addConstraint("Seeds", {
-      name: "SeedTypes-Seeds",
-      fields: ["seedtypes_id"],
+      name: "Crops-Seeds",
+      fields: ["crops_id"],
       type: "foreign key",
       references: {
-        table: "SeedTypes",
+        table: "Crops",
         field: "id",
       },
       onDelete: "cascade",
@@ -78,9 +78,9 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.removeConstraint("User_Farms", "Users-User_Farms");
     await queryInterface.removeConstraint("User_Farms", "Farms-User_Farms");
-    await queryInterface.removeConstraint("SeedTypes", "Farms-SeedTypes");
-    await queryInterface.removeConstraint("SeedTypes", "Kind-SeedType");
-    await queryInterface.removeConstraint("Seeds", "SeedTypes-Seeds");
+    await queryInterface.removeConstraint("Crops", "Farms-Crops");
+    await queryInterface.removeConstraint("Crops", "Kind-SeedType");
+    await queryInterface.removeConstraint("Seeds", "Crops-Seeds");
     await queryInterface.removeConstraint("Seeds", "Users-Seeds");
   },
 };

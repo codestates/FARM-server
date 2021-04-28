@@ -81,7 +81,7 @@ module.exports = {
       },
     ]);
 
-    await queryInterface.bulkInsert("SeedTypes", [
+    await queryInterface.bulkInsert("Crops", [
       {
         name: "React",
         farms_id: 2,
@@ -115,7 +115,7 @@ module.exports = {
     await queryInterface.bulkInsert("Seeds", [
       {
         name: "useEffect",
-        seedtypes_id: 1,
+        crops_id: 1,
         users_id: 2,
         isHarvested: false,
         isAssigned: true,
@@ -124,7 +124,7 @@ module.exports = {
       },
       {
         name: "memo",
-        seedtypes_id: 1,
+        crops_id: 1,
         isHarvested: false,
         isAssigned: false,
         createdAt: new Date(),
@@ -132,7 +132,7 @@ module.exports = {
       },
       {
         name: "dispatch",
-        seedtypes_id: 2,
+        crops_id: 2,
         users_id: 2,
         isHarvested: false,
         isAssigned: true,
@@ -141,7 +141,7 @@ module.exports = {
       },
       {
         name: "reducer",
-        seedtypes_id: 2,
+        crops_id: 2,
         users_id: 5,
         isHarvested: true,
         isAssigned: true,
@@ -153,7 +153,7 @@ module.exports = {
     await queryInterface.bulkInsert("Seeds", [
       {
         name: "ORM",
-        seedtypes_id: 4,
+        crops_id: 4,
         users_id: 1,
         isHarvested: false,
         isAssigned: true,
@@ -162,7 +162,7 @@ module.exports = {
       },
       {
         name: "Key",
-        seedtypes_id: 4,
+        crops_id: 4,
         users_id: 2,
         isHarvested: false,
         isAssigned: true,
@@ -171,7 +171,7 @@ module.exports = {
       },
       {
         name: "Mysql",
-        seedtypes_id: 4,
+        crops_id: 4,
         users_id: 3,
         isHarvested: false,
         isAssigned: true,
@@ -180,7 +180,7 @@ module.exports = {
       },
       {
         name: "MongoDb",
-        seedtypes_id: 4,
+        crops_id: 4,
         users_id: 4,
         isHarvested: false,
         isAssigned: true,
@@ -192,7 +192,7 @@ module.exports = {
     await queryInterface.bulkInsert("Seeds", [
       {
         name: "Cors",
-        seedtypes_id: 3,
+        crops_id: 3,
         users_id: 1,
         isHarvested: false,
         isAssigned: true,
@@ -201,7 +201,7 @@ module.exports = {
       },
       {
         name: "MiddleWare",
-        seedtypes_id: 3,
+        crops_id: 3,
         users_id: 1,
         isHarvested: false,
         isAssigned: true,
@@ -210,7 +210,7 @@ module.exports = {
       },
       {
         name: "Router",
-        seedtypes_id: 3,
+        crops_id: 3,
         users_id: 1,
         isHarvested: false,
         isAssigned: true,
@@ -219,7 +219,7 @@ module.exports = {
       },
       {
         name: "UrlParams",
-        seedtypes_id: 3,
+        crops_id: 3,
         isHarvested: false,
         isAssigned: false,
         createdAt: new Date(),
@@ -272,7 +272,7 @@ module.exports = {
     await queryInterface.bulkDelete("Farms", null);
     await queryInterface.bulkDelete("Kinds", null);
     await queryInterface.bulkDelete("Seeds", null);
-    await queryInterface.bulkDelete("SeedTypes", null);
+    await queryInterface.bulkDelete("Crops", null);
     await queryInterface.bulkDelete("User_Farms", null);
   },
 };

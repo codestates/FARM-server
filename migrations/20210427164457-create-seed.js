@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      seedtypes_id: {
+      crops_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
