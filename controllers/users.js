@@ -22,7 +22,6 @@ module.exports = {
         password: password,
       },
     });
-    console.log(`userData`, userData);
     if (!userData) {
       res.status(403).json({ message: "Invalid user email or password" });
     } else {
