@@ -1,5 +1,6 @@
 require("dotenv").config();
 const env = process.env;
+
 const development = {
   username: env.USERNAME,
   password: env.PASSWORD,
@@ -18,9 +19,9 @@ const production = {
 };
 
 const localdev = {
-  username: env.USERNAME,
-  password: env.PASSWORD,
-  database: env.DEV_DBNAME,
+  username: env.LOCAL_USERNAME,
+  password: env.LOCAL_PASSWORD,
+  database: env.LOCAL_DBNAME,
   dialect: "mysql",
 };
 
