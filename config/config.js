@@ -17,4 +17,11 @@ const production = {
   dialect: "mysql",
 };
 
-module.exports = { development, production };
+const localdev = {
+  username: env.USERNAME,
+  password: env.PASSWORD,
+  database: env.DEV_DBNAME,
+  dialect: "mysql",
+};
+
+module.exports = { development, production, localdev };
