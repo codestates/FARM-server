@@ -21,12 +21,12 @@ app.use(cors(corsOption));
 // * router 분기
 const { main, users, farm, crop, seed, storage } = require("./router");
 
-app.use("/", main);
 app.use("/users", users);
 app.use("/farm", farm);
 app.use("/crop", crop);
 app.use("/seed", seed);
 app.use("/storage", storage);
+app.use("/", main);
 
 app.listen(port, () => {
   console.log(`서버가 ${port}번에서 작동중입니다.`);
