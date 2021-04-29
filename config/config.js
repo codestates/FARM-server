@@ -18,9 +18,9 @@ const production = {
 };
 
 const localdev = {
-  username: env.USERNAME,
-  password: env.PASSWORD,
-  database: env.DEV_DBNAME,
+  username: env.LOCAL_USERNAME,
+  password: env.LOCAL_PASSWORD,
+  database: env.LODCAL_DBNAME,
   dialect: "mysql",
 };
 
