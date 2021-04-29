@@ -5,7 +5,7 @@ const env = process.env;
 
 module.exports = {
   generateAccessToken: (data) => {
-    return sign(data, env.ACCESS_SECRET, { expiresIn: "15s" });
+    return sign(data, env.ACCESS_SECRET, { expiresIn: "1d" });
   },
   generateRefreshToken: (data) => {
     return sign(data, env.REFRESH_SECRET, { expiresIn: "30d" });

@@ -3,15 +3,18 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Seed extends Model {
     static associate(models) {
-      // define association here
-      Seed.belongsTo(models.Crop);
-      Seed.belongsTo(models.User);
+      Seed.belongsTo(models.Crop, {
+        foreignKey: "crops_id",
+      });
+      Seed.belongsTo(models.User, {
+        foreignKey: "users_id",
+      });
     }
   }
   Seed.init(
     {
       name: DataTypes.STRING,
-      seeds_id: DataTypes.INTEGER,
+      crops_id: DataTypes.INTEGER,
       users_id: DataTypes.INTEGER,
       isHarvested: DataTypes.BOOLEAN,
     },
