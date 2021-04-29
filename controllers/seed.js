@@ -1,8 +1,5 @@
 module.exports = {
-  info: (req, res) => {
-    const id = req.params.farmid;
-    res.send("id is..." + id);
-  },
+  info: (req, res) => {},
   create: (req, res) => {},
   assign: (req, res) => {},
   harvest: (req, res) => {},
