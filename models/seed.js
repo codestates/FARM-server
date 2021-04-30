@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       crops_id: DataTypes.INTEGER,
       users_id: DataTypes.INTEGER,
       isHarvested: DataTypes.BOOLEAN,
+      isAssigned: DataTypes.BOOLEAN,
     },
     {
       sequelize,
