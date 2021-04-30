@@ -1,4 +1,4 @@
-const { Seed, User_Farms, Farm, User, Crop, Kind } = require("../../models");
+const { Seed, Farm, User, Crop, Kind } = require("../../models");
 const { isAuthorized } = require("../token");
 
 module.exports = async (req, res) => {
