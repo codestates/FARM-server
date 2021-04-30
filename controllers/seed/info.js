@@ -17,6 +17,9 @@ module.exports = async (req, res) => {
             ["id", "seed_id"],
             ["name", "seedname"],
           ],
+          where: {
+            isHarvested: false,
+          },
           include: [
             {
               model: Crop,
