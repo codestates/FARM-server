@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       name: farm_name,
       url: img,
     });
-
+    //User_Farms table에 새로운 관계 생성
     await User_Farms.create({
       farms_id: createdFarm.id,
       users_id: user_id,
