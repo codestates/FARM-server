@@ -10,8 +10,35 @@ const {
 const crypto = require("crypto");
 
 module.exports = {
-  info: (req, res) => {
-    res.send("test");
+  info: async (req, res) => {
+    try {
+      const tokenData = isAuthorized(req);
+      if (!tokenData) {
+        throw err;
+      } else {
+        const { email } = tokenData;
+        const userData = await User.findOne({ where: { email } });
+        console.log(userData);
+        if (!userData) {
+          res.status(404).json({ message: "Not Found" });
+        } else {
+          const { email, id, name } = userData;
+          const data = {
+            data: {
+              userinfo: {
+                id,
+                username: name,
+                email,
+              },
+            },
+            message: "ok",
+          };
+          res.status(200).json(data);
+        }
+      }
+    } catch (e) {
+      res.status(403).json({ message: "Invalid access token" });
+    }
   },
   farminfo: (req, res) => {},
   signin: async (req, res) => {
@@ -22,7 +49,6 @@ module.exports = {
           email: email,
         },
       });
-
       // ! DB에서 email로 user 조회 후, 그 user의 salt와 req.body의 password를 통해 hashedPassword 조회
       // ! 그 hashedPassword가 DB의 Password와 같다면 로그인 성공 그렇지 않으면 잘못되었다고 전송
       const hashedPassword = crypto
