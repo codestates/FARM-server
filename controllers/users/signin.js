@@ -15,13 +15,12 @@ module.exports = async (req, res) => {
         email: email,
       },
     });
-    // ! DB에서 email로 user 조회 후, 그 user의 salt와 req.body의 password를 통해 hashedPassword 조회
-    // ! 그 hashedPassword가 DB의 Password와 같다면 로그인 성공 그렇지 않으면 잘못되었다고 전송
     const hashedPassword = crypto
       .pbkdf2Sync(password, userData.salt, 103523, 64, "sha512")
       .toString("base64");
 
     if (hashedPassword !== userData.password) {
+      // 일치하는 비밀번호가 없는 경우
       res.status(403).json({ message: "Invalid user email or password" });
     } else {
       const accessToken = generateAccessToken(userData.dataValues);
@@ -30,6 +29,7 @@ module.exports = async (req, res) => {
       sendAccessToken(res, 200, accessToken);
     }
   } catch (e) {
-    console.log(e);
+    // 일치하는 이메일이 없을 경우
+    res.status(403).json({ message: "Invalid user email or password" });
   }
 };
