@@ -63,25 +63,25 @@ module.exports = {
     await queryInterface.bulkInsert("Kinds", [
       {
         name: "apple",
-        icon: "img1235",
+        icon: "🍎",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         name: "pear",
-        icon: "img1435",
+        icon: "🍐",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         name: "kiwi",
-        icon: "img5235",
+        icon: "🥝",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         name: "grape",
-        icon: "img9235",
+        icon: "🍇",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
