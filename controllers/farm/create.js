@@ -9,7 +9,6 @@ module.exports = async (req, res) => {
   try {
     const { farm_name, user_id, img } = req.body;
     //Farm table에 새로운 farm 생성
-    console.log(req.body);
     const createdFarm = await Farm.create({
       name: farm_name,
       url: img,

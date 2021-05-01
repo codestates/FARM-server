@@ -14,8 +14,6 @@ module.exports = async (req, res) => {
         email,
       },
     });
-    // users_id: user.id,
-    // farms_id: farm_id,
     const [data, created] = await User_Farms.findOrCreate({
       where: {
         users_id: user.id,
