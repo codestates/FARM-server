@@ -1,48 +1,20 @@
 const { isAuthorized } = require("../token");
-const { Farm, User_Farms } = require("../../models");
+const { Crop, Seed } = require("../../models");
 
 module.exports = async (req, res) => {
-  /* 
-    url : https://api.cakes.com
-/crop/info/:farmid
-    req : req.params.farmid로 farm id 받을 수 있다.
-    res : {    
-   "data": [
-      {
-        "crops_id": 3,
-        "name": "hello",
-        "seed": [
-          {
-            "seed_id": 1,
-            "seed_name": "useEffect 훈련",
-            "isHarvested": true
-          },
-          {
-            "seed_id": 1,
-            "seed_name": "Axios 훈련",
-            "isHarvested": true
-          }
-        ]
-      },
-      {
-        "crops_id": 4,
-        "name": "hello",
-        "seed": [
-          {
-            "seed_id": 3,
-            "seed_name": "dispatch 훈련",
-            "isHarvested": true
-          },
-          {
-            "seed_id": 4,
-            "seed_name": "reduce 훈련",
-            "isHarvested": true
-          }
-        ]
-      }
-    ]
-}
-    */
-  console.log(req.params.farmid);
-  res.send("바보");
+  if (!isAuthorized(req)) {
+    res.status(403).json({ message: "Invalid access Token" });
+    return;
+  }
+  try {
+    let data = await Crop.findAll({
+      attributes: ["id", "name"],
+      where: { farms_id: req.params.farmid },
+      include: [{ model: Seed, attributes: ["id", "name", "isHarvested"] }],
+    });
+    const cropData = data.map((el) => el.get({ plain: true }));
+    res.status(200).json({ data: cropData });
+  } catch (err) {
+    res.status(404).json({ message: "Not found" });
+  }
 };
