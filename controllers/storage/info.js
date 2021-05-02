@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     });
     const cropData = data.map((el) => el.get({ plain: true }));
 
-    res.status(200).json(cropData);
+    res.status(200).json({ data: cropData });
   } catch (err) {
     res.status(404).json({ message: "Not found" });
   }
