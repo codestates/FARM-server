@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
           },
           message: "ok",
         };
-        res.status(200).json(data);
+        res.status(200).json({ data });
       }
     }
   } catch (e) {

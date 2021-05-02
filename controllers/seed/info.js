@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
       return obj;
     });
 
-    res.status(200).send(revised);
+    res.status(200).json({ data: revised });
   } catch (err) {
     res.status(404).json({ message: "Not found" });
     return;
