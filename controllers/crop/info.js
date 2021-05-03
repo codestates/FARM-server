@@ -10,6 +10,7 @@ module.exports = async (req, res) => {
   try {
     let data = await Crop.findAll({
       attributes: [["id", "crops_id"], "name"],
+      // outer join - sequlize 검색
       include: [
         {
           model: Kind,
@@ -17,6 +18,7 @@ module.exports = async (req, res) => {
         },
         {
           model: Seed,
+          required: false,
           attributes: [
             ["id", "seed_id"],
             ["name", "seed_name"],
