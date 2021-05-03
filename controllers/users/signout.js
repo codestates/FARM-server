@@ -1,10 +1,11 @@
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 
 module.exports = (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   } else {
-    res.status(200).json({ message: "You're logged out." });
+    sendStatAndData(res, 200, "You're logged out.");
   }
 };

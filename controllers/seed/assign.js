@@ -1,5 +1,5 @@
 const { Seed } = require("../../models");
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 const { sendStatAndMsg } = require("../actions");
 
 module.exports = async (req, res) => {
@@ -9,6 +9,8 @@ module.exports = async (req, res) => {
   }
   try {
     const { user_id, seed_id } = req.body;
+
+    // user에게 assign 하는 부분
     await Seed.update(
       { users_id: user_id, isAssigned: true },
       {
@@ -18,7 +20,9 @@ module.exports = async (req, res) => {
       }
     );
     sendStatAndMsg(res, 200, "ok");
+    return;
   } catch (err) {
     sendStatAndMsg(res, 404, "Not Found");
+    return;
   }
 };

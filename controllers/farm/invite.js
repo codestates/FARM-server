@@ -1,4 +1,4 @@
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 const { User, User_Farms } = require("../../models");
 const { sendStatAndMsg } = require("../actions");
 module.exports = async (req, res) => {

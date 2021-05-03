@@ -1,5 +1,5 @@
 const { Seed } = require("../../models");
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 const { sendStatAndMsg, sendStatAndData } = require("../actions");
 
 module.exports = async (req, res) => {
