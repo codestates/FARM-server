@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
                 },
                 {
                   model: Kind,
-                  attributes: [["name", "kind"]],
+                  attributes: [["icon", "kind"]],
                   required: true,
                 },
               ],
