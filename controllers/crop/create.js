@@ -1,4 +1,4 @@
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 const { Crop, Kind } = require("../../models");
 
 module.exports = async (req, res) => {

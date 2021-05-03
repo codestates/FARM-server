@@ -1,33 +1,32 @@
 const { User } = require("../../models");
-const { isAuthorized } = require("../token");
-
+const { isAuthorized } = require("../auth");
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 module.exports = async (req, res) => {
   try {
     const tokenData = isAuthorized(req);
     if (!tokenData) {
       throw err;
-    } else {
-      const { email } = tokenData;
-      const userData = await User.findOne({ where: { email } });
-      console.log(userData);
-      if (!userData) {
-        res.status(404).json({ message: "Not Found" });
-      } else {
-        const { email, id, name } = userData;
-        const data = {
-          data: {
-            userinfo: {
-              id,
-              username: name,
-              email,
-            },
-          },
-          message: "ok",
-        };
-        res.status(200).json({ data });
-      }
     }
-  } catch (e) {
-    res.status(403).json({ message: "Invalid access token" });
+    const { email } = tokenData;
+    const userData = await User.findOne({ where: { email } });
+
+    if (!userData) {
+      sendStatAndMsg(res, 404, "Not Found");
+      return;
+    } else {
+      const { email, id, name } = userData;
+      const data = {
+        userinfo: {
+          id,
+          username: name,
+          email,
+        },
+      };
+      sendStatAndData(res, 200, data);
+      return;
+    }
+  } catch (err) {
+    sendStatAndMsg(res, 403, "Invalid access token");
+    return;
   }
 };

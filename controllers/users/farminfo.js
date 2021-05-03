@@ -1,6 +1,6 @@
 const { User, Farm } = require("../../models");
-const { isAuthorized } = require("../token");
-const crypto = require("crypto");
+const { isAuthorized } = require("../auth");
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 
 module.exports = async (req, res) => {
   try {
@@ -21,9 +21,10 @@ module.exports = async (req, res) => {
       delete obj.updatedAt;
       return obj;
     });
-
-    res.status(200).json({ data: revised });
-  } catch (e) {
-    res.status(404).json({ message: "Not Found" });
+    sendStatAndData(res, 200, revised);
+    return;
+  } catch (err) {
+    sendStatAndMsg(res, 404, "Not Found");
+    return;
   }
 };

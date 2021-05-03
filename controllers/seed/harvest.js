@@ -1,6 +1,6 @@
 const { Seed } = require("../../models");
 const { sendStatAndMsg } = require("../actions");
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {

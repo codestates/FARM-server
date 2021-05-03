@@ -1,5 +1,5 @@
 const { Seed } = require("../../models");
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 const { sendStatAndMsg } = require("../actions");
 
 module.exports = async (req, res) => {
@@ -19,10 +19,10 @@ module.exports = async (req, res) => {
         },
       }
     );
-    //  crop
-
     sendStatAndMsg(res, 200, "ok");
+    return;
   } catch (err) {
     sendStatAndMsg(res, 404, "Not Found");
+    return;
   }
 };

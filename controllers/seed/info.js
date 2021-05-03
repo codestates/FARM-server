@@ -1,6 +1,6 @@
 const { Seed, Farm, User, Crop, Kind } = require("../../models");
 const { sendStatAndData, sendStatAndMsg } = require("../actions");
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
@@ -50,7 +50,6 @@ module.exports = async (req, res) => {
     //dataValues만 뽑아내는 부분
     data = data.map((el) => el.get({ plain: true }));
 
-    //data를 api에 맞게 수정하는 부분
     const revised = data.map((user) => {
       let obj = {
         ...user,
@@ -67,6 +66,7 @@ module.exports = async (req, res) => {
       return obj;
     });
     sendStatAndData(res, 200, revised);
+    return;
   } catch (err) {
     sendStatAndMsg(res, 404, "Not Found");
     return;

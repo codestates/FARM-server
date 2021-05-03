@@ -1,41 +1,37 @@
 const { User } = require("../../models");
-const { isInsufficient } = require("../actions");
-const crypto = require("crypto");
+const { isInsufficient, sendStatAndMsg } = require("../actions");
+const { createSalt, createhashedPassword } = require("../auth");
 
 module.exports = async (req, res) => {
   try {
     const { email, password, username } = req.body;
+    console.log(email, password, username);
+    if (isInsufficient(email, password, username)) {
+      throw err;
+    }
 
     const userData = await User.findOne({
       where: { email },
     });
 
-    if (isInsufficient(email, password, username)) {
-      throw err;
-    }
     if (userData) {
-      res.status(409).json({
-        message: "email exists",
-      });
-    } else {
-      // ! hash로 암호화해서 hashedPassword/ Salt 모두 저장
-      const salt = crypto.randomBytes(64).toString("base64");
-      const hashedPassword = crypto
-        .pbkdf2Sync(password, salt, 103523, 64, "sha512")
-        .toString("base64");
-      await User.create({
-        name: username,
-        email: email,
-        password: hashedPassword,
-        salt: salt,
-      });
-      res.status(201).json({
-        message: "Signed up successfully",
-      });
+      sendStatAndMsg(res, 409, "email exists");
+      return;
     }
-  } catch (e) {
-    res.status(422).json({
-      message: "insufficient parameters supplied",
+    // ! hash로 암호화해서 hashedPassword/ Salt 모두 저장
+    const salt = createSalt();
+    const hashedPassword = createhashedPassword(password, salt);
+
+    await User.create({
+      salt,
+      email,
+      name: username,
+      password: hashedPassword,
     });
+    sendStatAndMsg(res, 201, "Signed up successfully");
+    return;
+  } catch (err) {
+    sendStatAndMsg(res, 422, "insufficient parameters supplied");
+    return;
   }
 };

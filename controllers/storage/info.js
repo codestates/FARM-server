@@ -1,5 +1,5 @@
 const { Seed, Farm, User, Crop, Kind } = require("../../models");
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 const { sendStatAndMsg, sendStatAndData } = require("../actions");
 
 module.exports = async (req, res) => {
@@ -26,7 +26,9 @@ module.exports = async (req, res) => {
     const cropData = data.map((el) => el.get({ plain: true }));
 
     sendStatAndData(res, 200, cropData);
+    return;
   } catch (err) {
     sendStatAndMsg(res, 404, "Not Found");
+    return;
   }
 };

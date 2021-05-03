@@ -1,4 +1,4 @@
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 const { Crop, Seed, Kind } = require("../../models");
 const { sendStatAndData, sendStatAndMsg } = require("../actions");
 

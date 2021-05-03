@@ -1,20 +1,21 @@
-const { isAuthorized } = require("../token");
+const { isAuthorized } = require("../auth");
 const { Kind } = require("../../models");
-
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
     let data = await Kind.findAll({
       attribute: ["icon"],
     });
-
     const kindsData = data.map((el) => el.get({ plain: true }));
     const mapKindsData = kindsData.map((el) => el.icon);
-    res.status(201).json({ data: mapKindsData, message: "ok" });
+    sendStatAndData(res, 201, mapKindsData);
+    return;
   } catch (err) {
-    res.status(404).json({ message: "Not found" });
+    sendStatAndMsg(res, 404, "Not Found");
+    return;
   }
 };
