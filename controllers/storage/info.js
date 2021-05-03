@@ -1,9 +1,10 @@
 const { Seed, Farm, User, Crop, Kind } = require("../../models");
 const { isAuthorized } = require("../token");
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
@@ -24,8 +25,8 @@ module.exports = async (req, res) => {
     });
     const cropData = data.map((el) => el.get({ plain: true }));
 
-    res.status(200).json({ data: cropData });
+    sendStatAndData(res, 200, cropData);
   } catch (err) {
-    res.status(404).json({ message: "Not found" });
+    sendStatAndMsg(res, 404, "Not Found");
   }
 };

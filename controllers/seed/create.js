@@ -1,9 +1,10 @@
-const { Seed, User_Farms, Farm, User, Crop, Kind } = require("../../models");
+const { Seed } = require("../../models");
 const { isAuthorized } = require("../token");
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
@@ -15,8 +16,10 @@ module.exports = async (req, res) => {
       isHarvested: false,
       isAssigned: false,
     });
-    res.status(201).json({ data: { seed_id: data.id }, message: "ok" });
+    sendStatAndData(res, 201, { seed_id: data.id });
+    return;
   } catch (err) {
-    res.status(404).json({ message: "Not found" });
+    sendStatAndMsg(res, 404, "Not Found");
+    return;
   }
 };

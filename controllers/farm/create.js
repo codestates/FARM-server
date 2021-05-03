@@ -1,9 +1,10 @@
 const { isAuthorized } = require("../token");
 const { Farm, User_Farms } = require("../../models");
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
@@ -22,7 +23,7 @@ module.exports = async (req, res) => {
     res.status(200).json({ id: createdFarm.id, message: "Created" });
     return;
   } catch (err) {
-    res.status(404).json({ message: "create failed" });
+    sendStatAndData(res, 404, "create failed");
     return;
   }
 };

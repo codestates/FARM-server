@@ -1,9 +1,10 @@
 const { Seed } = require("../../models");
+const { sendStatAndMsg } = require("../actions");
 const { isAuthorized } = require("../token");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
@@ -16,9 +17,10 @@ module.exports = async (req, res) => {
         },
       }
     );
-    res.status(200).json({ message: "ok" });
+    sendStatAndMsg(res, 200, "ok");
+    return;
   } catch (err) {
-    res.status(404).json({ message: "Not found" });
+    sendStatAndMsg(res, 404, "Not Found");
     return;
   }
 };
