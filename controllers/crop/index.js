@@ -13,3 +13,4 @@ fs.readdirSync(__dirname)
     modules[name] = module;
   });
 module.exports = modules;
+
