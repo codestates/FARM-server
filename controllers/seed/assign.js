@@ -9,6 +9,8 @@ module.exports = async (req, res) => {
   }
   try {
     const { user_id, seed_id } = req.body;
+
+    // user에게 assign 하는 부분
     await Seed.update(
       { users_id: user_id, isAssigned: true },
       {
@@ -17,6 +19,8 @@ module.exports = async (req, res) => {
         },
       }
     );
+    //  crop
+
     sendStatAndMsg(res, 200, "ok");
   } catch (err) {
     sendStatAndMsg(res, 404, "Not Found");

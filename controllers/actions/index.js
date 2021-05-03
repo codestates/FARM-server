@@ -5,4 +5,7 @@ module.exports = {
   sendStatAndData: (res, status, data, message = "ok") => {
     res.status(status).json({ data, message });
   },
+  isInsufficient: (...args) => {
+    return args.some((arg) => !arg);
+  },
 };

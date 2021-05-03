@@ -1,14 +1,16 @@
 const { User } = require("../../models");
-
+const { isInsufficient } = require("../actions");
 const crypto = require("crypto");
 
 module.exports = async (req, res) => {
   try {
     const { email, password, username } = req.body;
+
     const userData = await User.findOne({
-      where: { email: email },
+      where: { email },
     });
-    if (!email || !password || !username) {
+
+    if (isInsufficient(email, password, username)) {
       throw err;
     }
     if (userData) {
