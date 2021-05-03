@@ -1,9 +1,9 @@
 const { isAuthorized } = require("../token");
-const { Crop, Kind, Farm, User_Farms } = require("../../models");
+const { Crop, Kind } = require("../../models");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
@@ -19,7 +19,9 @@ module.exports = async (req, res) => {
       data: { crop_id: data.id, kind: kind },
       message: "ok",
     });
+    return;
   } catch (err) {
-    res.status(404).json({ message: "Not found" });
+    sendStatAndData(res, 404, "Not found");
+    return;
   }
 };

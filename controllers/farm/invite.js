@@ -1,9 +1,9 @@
 const { isAuthorized } = require("../token");
 const { User, User_Farms } = require("../../models");
-
+const { sendStatAndMsg } = require("../actions");
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
@@ -22,9 +22,7 @@ module.exports = async (req, res) => {
     });
     // 만약 초대하려는 유저가 이미 농장에 있다면 이미 있는 유저라는 메시지를 클라이언트에 전달.
     if (!created) {
-      res
-        .status(409)
-        .json({ message: "this user is already a member of this farm" });
+      sendStatAndMsg(res, 409, "this user is already a member of this farm");
       return;
     }
     // 새로운 멤버가 추가 되면 해당 메시지 클라이언트에 전달.
@@ -33,7 +31,7 @@ module.exports = async (req, res) => {
       .json({ id: user.id, username: user.name, message: "new member added" });
     return;
   } catch (err) {
-    res.status(404).json({ message: "create failed" });
+    sendStatAndMsg(res, 404, "create failed");
     return;
   }
 };

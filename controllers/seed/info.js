@@ -1,9 +1,10 @@
 const { Seed, Farm, User, Crop, Kind } = require("../../models");
+const { sendStatAndData, sendStatAndMsg } = require("../actions");
 const { isAuthorized } = require("../token");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   //data를 찾는 부분
@@ -65,10 +66,9 @@ module.exports = async (req, res) => {
       delete obj.Seeds;
       return obj;
     });
-
-    res.status(200).json({ data: revised });
+    sendStatAndData(res, 200, revised);
   } catch (err) {
-    res.status(404).json({ message: "Not found" });
+    sendStatAndMsg(res, 404, "Not Found");
     return;
   }
 };
