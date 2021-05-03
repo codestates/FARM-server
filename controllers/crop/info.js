@@ -17,7 +17,13 @@ module.exports = async (req, res) => {
         },
         {
           model: Seed,
-          attributes: [["id", "seed_id"], ["name", "seed_name"], "isHarvested"],
+          attributes: [
+            ["id", "seed_id"],
+            ["name", "seed_name"],
+            "isHarvested",
+            "isAssigned",
+          ],
+          where: { isAssigned: false },
         },
       ],
       where: { farms_id: req.params.farmid },
@@ -30,6 +36,7 @@ module.exports = async (req, res) => {
       };
       return obj;
     });
+    console.log(`revised`, revised);
     sendStatAndData(res, 200, revised);
     return;
   } catch (err) {
