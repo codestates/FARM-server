@@ -9,10 +9,11 @@ module.exports = async (req, res) => {
   }
   try {
     const { farm_name, user_id, img } = req.body;
+    console.log(`req`, req);
     //Farm table에 새로운 farm 생성
     const createdFarm = await Farm.create({
       name: farm_name,
-      url: img,
+      img: img,
     });
     //User_Farms table에 새로운 관계 생성
     await User_Farms.create({
