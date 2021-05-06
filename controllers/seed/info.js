@@ -9,60 +9,60 @@ module.exports = async (req, res) => {
   }
   //data를 찾는 부분
   try {
-    let data = await User.findAll({
-      attributes: [["id", "user_id"]],
+    let data = await Farm.findOne({
+      where: { id: req.params.farmid },
+      attributes: [],
       include: [
         {
-          model: Seed,
-          attributes: [
-            ["id", "seed_id"],
-            ["name", "seedname"],
-          ],
-          where: {
-            isHarvested: false,
-          },
+          model: User,
+          attributes: [["id", "user_id"]],
           include: [
             {
-              model: Crop,
-              attributes: ["farms_id"],
+              model: Seed,
+              required: false,
+              attributes: [
+                ["id", "seed_id"],
+                ["name", "seedname"],
+              ],
+              where: { isHarvested: false, isAssigned: true },
               include: [
                 {
-                  model: Farm,
-                  attributes: [],
+                  model: Crop,
+                  attributes: [["id", "crop_id"]],
                   required: true,
-                  where: {
-                    id: req.params.farmid,
-                  },
-                },
-                {
-                  model: Kind,
-                  attributes: [["icon", "kind"]],
-                  required: true,
+                  include: [
+                    {
+                      model: Farm,
+                      attirbutes: [],
+                      where: { id: req.params.farmid },
+                    },
+                    {
+                      model: Kind,
+                      attirbutes: [["Kind", "kind"]],
+                    },
+                  ],
                 },
               ],
-              required: true,
             },
           ],
-          required: true,
         },
       ],
     });
-    //dataValues만 뽑아내는 부분
-    data = data.map((el) => el.get({ plain: true }));
-
+    data = data.get({ plain: true }).Users;
     const revised = data.map((user) => {
       let obj = {
         ...user,
         seeds: user.Seeds.map((seeds) => {
           let obj = {
             ...seeds,
-            kind: seeds.Crop.Kind.kind,
+            kind: seeds.Crop.Kind.icon,
           };
           delete obj.Crop;
           return obj;
         }),
       };
       delete obj.Seeds;
+      delete obj.User_Farms;
       return obj;
     });
     sendStatAndData(res, 200, revised);

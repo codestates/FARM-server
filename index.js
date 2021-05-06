@@ -12,9 +12,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 const corsOption = {
-  origin: "*",
+  origin: "http://localhost:3000",
   credentials: true,
-  method: ["GET", "POST", "OPTIONS"],
+  method: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
 };
 app.use(cors(corsOption));
 
