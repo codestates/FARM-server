@@ -11,8 +11,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+const whitelist = ["https://farmworks.site", "https://www.farmworks.site"];
 const corsOption = {
-  origin: "http://localhost:3000",
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not in WhiteList"));
+    }
+  },
   credentials: true,
   method: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
 };
