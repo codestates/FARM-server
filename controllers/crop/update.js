@@ -1,23 +1,18 @@
-const { Seed } = require("../../models");
-const { sendStatAndMsg } = require("../actions");
 const { isAuthorized } = require("../auth");
-
+const { Crop, Kind } = require("../../models");
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
     sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
-    const { seed_id } = req.body;
-    await Seed.update(
-      { isHarvested: true },
-      {
-        where: {
-          id: seed_id,
-        },
-      }
+    const { crops_id, newName } = req.body;
+    let data = await Crop.update(
+      { name: newName },
+      { where: { id: crops_id } }
     );
-    sendStatAndMsg(res, 200, "ok");
+    sendStatAndData(res, 201);
     return;
   } catch (err) {
     sendStatAndMsg(res, 404, "Not Found");

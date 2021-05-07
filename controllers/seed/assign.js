@@ -1,13 +1,16 @@
-const { Seed, User_Farms, Farm, User, Crop, Kind } = require("../../models");
-const { isAuthorized } = require("../token");
+const { Seed } = require("../../models");
+const { isAuthorized } = require("../auth");
+const { sendStatAndMsg } = require("../actions");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
     const { user_id, seed_id } = req.body;
+
+    // user에게 assign 하는 부분
     await Seed.update(
       { users_id: user_id, isAssigned: true },
       {
@@ -16,8 +19,10 @@ module.exports = async (req, res) => {
         },
       }
     );
-    res.status(200).json({ message: "ok" });
+    sendStatAndMsg(res, 200, "ok");
+    return;
   } catch (err) {
-    res.status(404).json({ message: "Not found" });
+    sendStatAndMsg(res, 404, "Not Found");
+    return;
   }
 };

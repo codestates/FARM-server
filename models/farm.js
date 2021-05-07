@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   Farm.init(
     {
       name: DataTypes.STRING,
+      img: DataTypes.STRING,
     },
     {
       sequelize,

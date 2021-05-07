@@ -1,5 +1,6 @@
-require("dotenv").config;
+const crypto = require("crypto");
 const { sign, verify } = require("jsonwebtoken");
+require("dotenv").config;
 
 const env = process.env;
 
@@ -34,5 +35,13 @@ module.exports = {
     } catch (e) {
       return null;
     }
+  },
+  createSalt: () => {
+    return crypto.randomBytes(64).toString("base64");
+  },
+  createhashedPassword: (password, salt) => {
+    return crypto
+      .pbkdf2Sync(password, salt, 103523, 64, "sha512")
+      .toString("base64");
   },
 };

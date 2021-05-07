@@ -1,22 +1,18 @@
-const { Seed } = require("../../models");
 const { isAuthorized } = require("../auth");
+const { Kind } = require("../../models");
 const { sendStatAndMsg, sendStatAndData } = require("../actions");
-
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
     sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   try {
-    const { seed_name, crop_id } = req.body;
-    let data = await Seed.create({
-      name: seed_name,
-      crops_id: crop_id,
-      users_id: null,
-      isHarvested: false,
-      isAssigned: false,
+    let data = await Kind.findAll({
+      attribute: ["icon"],
     });
-    sendStatAndData(res, 201, { seed_id: data.id });
+    const kindsData = data.map((el) => el.get({ plain: true }));
+    const mapKindsData = kindsData.map((el) => el.icon);
+    sendStatAndData(res, 201, mapKindsData);
     return;
   } catch (err) {
     sendStatAndMsg(res, 404, "Not Found");

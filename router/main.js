@@ -1,5 +1,7 @@
-const main = (req, res) => {
-  res.send("hello world");
-};
+const router = require("express").Router();
 
-module.exports = main;
+router.get("/", (req, res) => {
+  res.send("hello world");
+});
+
+module.exports = router;

@@ -1,71 +1,74 @@
-const { Seed, User_Farms, Farm, User, Crop, Kind } = require("../../models");
-const { isAuthorized } = require("../token");
+const { Seed, Farm, User, Crop, Kind } = require("../../models");
+const { sendStatAndData, sendStatAndMsg } = require("../actions");
+const { isAuthorized } = require("../auth");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
-    res.status(403).json({ message: "Invalid access Token" });
+    sendStatAndMsg(res, 403, "Invalid access Token");
     return;
   }
   //data를 찾는 부분
   try {
-    let data = await User.findAll({
-      attributes: [["id", "user_id"]],
+    let data = await Farm.findOne({
+      where: { id: req.params.farmid },
+      attributes: [],
       include: [
         {
-          model: Seed,
-          attributes: [
-            ["id", "seed_id"],
-            ["name", "seedname"],
-          ],
+          model: User,
+          attributes: [["id", "user_id"]],
           include: [
             {
-              model: Crop,
-              attributes: ["farms_id"],
+              model: Seed,
+              required: false,
+              attributes: [
+                ["id", "seed_id"],
+                ["name", "seedname"],
+              ],
+              where: { isHarvested: false, isAssigned: true },
               include: [
                 {
-                  model: Farm,
-                  attributes: [],
+                  model: Crop,
+                  attributes: [["id", "crop_id"]],
                   required: true,
-                  where: {
-                    id: req.params.farmid,
-                  },
-                },
-                {
-                  model: Kind,
-                  attributes: [["name", "kind"]],
-                  required: true,
+                  include: [
+                    {
+                      model: Farm,
+                      attirbutes: [],
+                      where: { id: req.params.farmid },
+                    },
+                    {
+                      model: Kind,
+                      attirbutes: [["Kind", "kind"]],
+                    },
+                  ],
                 },
               ],
-              required: true,
             },
           ],
-          required: true,
         },
       ],
     });
-    //dataValues만 뽑아내는 부분
-    data = data.map((el) => el.get({ plain: true }));
-
-    //data를 api에 맞게 수정하는 부분
+    data = data.get({ plain: true }).Users;
     const revised = data.map((user) => {
       let obj = {
         ...user,
         seeds: user.Seeds.map((seeds) => {
           let obj = {
             ...seeds,
-            kind: seeds.Crop.Kind.kind,
+            kind: seeds.Crop.Kind.icon,
           };
           delete obj.Crop;
           return obj;
         }),
       };
       delete obj.Seeds;
+      delete obj.User_Farms;
       return obj;
     });
-
-    res.status(200).send(revised);
+    sendStatAndData(res, 200, revised);
+    return;
   } catch (err) {
-    res.status(404).json({ message: "Not found" });
+    sendStatAndMsg(res, 404, "Not Found");
     return;
   }
 };

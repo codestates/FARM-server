@@ -1,6 +1,6 @@
 const { Seed } = require("../../models");
-const { sendStatAndMsg } = require("../actions");
 const { isAuthorized } = require("../auth");
+const { sendStatAndMsg, sendStatAndData } = require("../actions");
 
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
@@ -9,15 +9,10 @@ module.exports = async (req, res) => {
   }
   try {
     const { seed_id } = req.body;
-    await Seed.update(
-      { isHarvested: true },
-      {
-        where: {
-          id: seed_id,
-        },
-      }
-    );
-    sendStatAndMsg(res, 200, "ok");
+    let data = await Seed.destroy({
+      where: { id: seed_id },
+    });
+    sendStatAndData(res, 200);
     return;
   } catch (err) {
     sendStatAndMsg(res, 404, "Not Found");
