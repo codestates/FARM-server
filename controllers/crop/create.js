@@ -1,6 +1,6 @@
 const { isAuthorized } = require("../auth");
 const { Crop, Kind } = require("../../models");
-const { sendStatAndData, sendStatAndMsg } = require("../actions");
+const { sendStatAndMsg } = require("../actions");
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
     sendStatAndMsg(res, 403, "Invalid access Token");
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     });
     return;
   } catch (err) {
-    sendStatAndData(res, 404, "Not found");
+    sendStatAndMsg(res, 404, "Not found");
     return;
   }
 };
